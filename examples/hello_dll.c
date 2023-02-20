@@ -5,7 +5,7 @@
 
 #include <windows.h>
 
-char* hello_func (void);
+char* hello_func (char*);
 __declspec(dllimport) extern const char *hello_data;
 
 int WINAPI WinMain(
@@ -15,6 +15,6 @@ int WINAPI WinMain(
     int       nCmdShow)
 {
     hello_data = "Hello World!";
-    hello_func();
+    hello_func("Hi you!");
     return 0;
 }
