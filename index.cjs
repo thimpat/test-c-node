@@ -1,6 +1,6 @@
 const {mkdirSync} = require("fs");
 const {rimrafSync} = require("rimraf");
-const {runFile, runLive, compileSource, compileLibrary, runBinary, invokeFunction} = require("c-node");
+const {runFile, runLive, compileSource, compileLibrary, runBinary, invokeFunction, loadFunctions} = require("@thimpat/c-node");
 
 const showHello = function ()
 {
@@ -37,6 +37,18 @@ const callFunction = function ()
     console.log({lid: 3002}, result);
 }
 
+const loadDll = function ()
+{
+    const {hello_func} = loadFunctions("examples/dll.c", {
+        hello_func: {
+            prototype: "char* hello_func (char*)",
+        }
+    }, {outputDir: "demo/"});
+
+    const res = hello_func("My name is awesome");
+    console.log({lid: "NC6452"}, res);
+}
+
 const init = async function (argv)
 {
     rimrafSync("demo/");
@@ -44,7 +56,8 @@ const init = async function (argv)
 
     // showHello();
     // generateDll();
-    callFunction();
+    // callFunction();
+    loadDll();
 };
 
 (async function ()
